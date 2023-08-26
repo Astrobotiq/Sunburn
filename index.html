@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    margin: 0;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+  }
+
+  .menu-bar {
+    background-color: #8BE8E5; /* Initial menu bar background color */
+    color: white;
+    padding: 15px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease-in-out; /* Add transition */
+  }
+
+  .menu-title {
+    font-size: 36px;
+    font-weight: bold;
+  }
+
+  .menu-buttons {
+    display: flex;
+    gap: 20px;
+    margin-left: auto;
+  }
+
+  .container {
+    position: relative;
+    width: 100%;
+    height: 170vh;
+    font-family: Arial, sans-serif;
+    margin-top: 70px;
+    overflow: hidden;
+  }
+
+  .sky {
+    background-color: #8BE8E5;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    transition: background-color 0.3s ease-in-out;
+  }
+  .cloud {
+    background-color: #fff;
+    width: 150px;
+    height: 80px;
+    position: absolute;
+    border-radius: 50px;
+    opacity: 0.8;
+    z-index: 2000;
+  }
+
+  .cloud1 {
+    top: 10%;
+    left: 10%;
+    
+  }
+
+  .cloud2 {
+    top: 15%;
+    left: 30%;
+  }
+
+  .cloud3 {
+    top: 20%;
+    left: 50%;
+  }
+
+  .cloud4 {
+    top: 25%;
+    left: 70%;
+  }
+
+  .cloud5 {
+    top: 30%;
+    right: 10%;
+  }
+
+  .ground {
+    background-color: #5F8D4E; /* Original ground color */
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    bottom: 0;
+    z-index: 1; /* Bring the ground to the front */
+    transition: background-color 0.3s ease-in-out; /* Add transition */
+  }
+
+  /* Darker ground color */
+  .ground.dark {
+    background-color: #285430;
+  }
+
+  .sun {
+    background-color: #F8DE22; /* Original sun color */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: 20%;
+    left: calc(30% - 50px); /* Adjust the left position */
+    z-index: 0; /* Sun behind the ground but in front of the sky */
+    transition: top 0.3s ease-in-out, left 0.3s ease-in-out, background-color 0.3s ease-in-out; /* Add background-color transition */
+  }
+
+  /* Darker sun color */
+  .sun.behind {
+    background-color: #F94C10;
+  }
+
+  .button {
+    background-color: #00DFA2; /* Button color */
+    color: white;
+    padding: 15px 30px; /* Increased padding for a bigger button */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out; /* Added transform transition */
+    font-size: 16px; /* Font size for the button text */
+    border-radius: 30px; /* Rounded corners */
+    outline: none; /* Remove default button outline */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Box shadow for a lifted effect */
+  }
+
+  .button:hover {
+    background-color: #F8DE22; /* Hover color */
+    transform: scale(1.05); /* Slightly scale up on hover */
+  }
+  .lyrics {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    width: 90%;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    line-height: 1.5;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+  <div class="menu-bar">
+    <div class="menu-title">SUNBURN</div>
+    <div class="menu-buttons">
+      <button class="button">Album</button>
+      <button class="button">Artist</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="sky">
+      <div class="cloud cloud1"></div>
+      <div class="cloud cloud2"></div>
+      <div class="cloud cloud3"></div>
+      <div class="cloud cloud4"></div>
+      <div class="cloud cloud5"></div>
+    </div>
+    <div class="lyrics">
+        <!-- Add the song lyrics here -->
+        <p>Come waste your millions here<br>Secretly she sneers<br>Another corporate show<br>A guilty conscience grows<br>And I'll feel a guilty conscience grow<br>
+            And I'll feel a guilty conscience grow
+            <br>She burns like the sun
+            <br>And I can't look away
+            <br>And she'll burn our horizons
+            <br>Make no mistakes
+            <br>Come let the truth be shared
+            <br>No one ever dared to break
+            <br>These endless lies
+            <br>Secretly she cries
+            <br>She burns like the sun
+            <br>And I can't look away
+            <br>And she'll burn our horizons
+            <br>Make no mistakes
+            <br>And I'll hide from the world
+            <br>Behind a broken frame
+            <br>And I'll run forever
+            <br>I can't face the shame
+            <br>And I'll hide from the world
+            <br>Behind a broken frame
+            <br>And I'll run forever
+            <br>I can't face the shame</p>
+      </div>
+    <div class="ground"></div>
+    <div class="sun"></div>
+  </div>
+
+  <script>
+    let targetTop = 20;
+    let targetLeft = 30;
+    let currentTop = 20;
+    let currentLeft = 30;
+    let scrolling = false;
+
+    function updateSunPosition() {
+      const sun = document.querySelector(".sun");
+      const sky = document.querySelector(".sky"); // Get the sky element
+      const ground = document.querySelector(".ground"); // Get the ground element
+      const topDiff = targetTop - currentTop;
+      const leftDiff = targetLeft - currentLeft;
+
+      currentTop += topDiff * 0.05;
+      currentLeft += leftDiff * 0.05;
+
+      sun.style.top = currentTop + "%";
+      sun.style.left = currentLeft + "%";
+
+      // Check if sun is behind the ground
+      if (currentTop > 70) {
+        sun.classList.add("behind");
+        sky.style.backgroundColor = "#1450A3"; // Darker sky color
+        ground.classList.add("dark"); // Darker ground color
+      } else {
+        sun.classList.remove("behind");
+        sky.style.backgroundColor = "#8BE8E5"; // Original sky color
+        ground.classList.remove("dark"); // Original ground color
+      }
+
+      if (scrolling) {
+        requestAnimationFrame(updateSunPosition);
+      }
+    }
+
+    window.addEventListener("scroll", () => {
+      targetTop = 20 + (window.scrollY * 0.1);
+      targetLeft = 30 + (window.scrollY * 0.1);
+
+      if (!scrolling) {
+        scrolling = true;
+        updateSunPosition();
+      }
+      const menuBar = document.querySelector(".menu-bar");
+      const skyColor = getComputedStyle(document.querySelector(".sky")).backgroundColor;
+      menuBar.style.backgroundColor = skyColor;
+    });
+  </script>
+</body>
+</html>
